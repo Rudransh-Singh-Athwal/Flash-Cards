@@ -1,7 +1,15 @@
 export default function App() {
   return (
-    <div>
-      <h1>Flash Cards</h1>
+    <div className="App">
+      <FlashCards />
+    </div>
+  );
+}
+
+function FlashCards() {
+  return (
+    <div className="flashcards">
+      <div>Dummy card</div>
     </div>
   );
 }
