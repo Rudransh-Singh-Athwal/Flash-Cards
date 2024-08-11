@@ -11,28 +11,27 @@ export default function App() {
 const questions = [
   {
     id: 1,
-    question: "What are the basic operations performed on data structures?",
-    answer:
-      "The basic operations performed on data structures include insertion, deletion, traversal, search, and sorting.",
+    question:
+      "Which technology is primarily responsible for the styling of web pages?",
+    answer: "CSS",
   },
   {
     id: 2,
-    question: "What is the difference between an array and a linked list?",
-    answer:
-      "An array stores elements sequentially in memory whereas a linked list consists of a series of nodes, each containing a value and a pointer to the next node.",
+    question: "What does CSS stand for?",
+    answer: "Cascading Style Sheets",
   },
   {
     id: 3,
-    question: "What is the time complexity of an algorithm?",
-    answer:
-      "The time complexity of an algorithm is the measure of the amount of time it takes to run as a function of the input size.",
+    question:
+      "Which programming language is mainly used for adding interactivity to websites?",
+    answer: "JavaScript",
   },
 
   {
     id: 4,
-    question: "What are the types of data structures?",
-    answer:
-      "There are several types of data structures, including arrays, linked lists, stacks, queues, trees, graphs, and hash tables.",
+    question:
+      "What is the purpose of a front-end web development framework like React?",
+    answer: "To create a visually appealing user interface",
   },
   {
     id: 5,
@@ -47,9 +46,15 @@ const questions = [
   },
   {
     id: 7,
-    question: "What are props in React?",
-    answer:
-      "Props are like function parameters used to pass data to components.",
+    question:
+      "Which part of web development is responsible for handling data storage and retrieval?",
+    answer: "Back-end development",
+  },
+  {
+    id: 8,
+    question:
+      "What is the primary function of a web server in the context of web development?",
+    answer: "Handling HTTP requests and serving web pages",
   },
 ];
 
@@ -58,6 +63,20 @@ function FlashCards() {
 
   function handleClick(id) {
     setSelectedId(id === selectedId ? null : id);
+  }
+
+  function handlePrevious() {
+    const currentIndex = questions.findIndex((el) => el.id === selectedId);
+    if (currentIndex > 0) {
+      setSelectedId(questions[currentIndex - 1].id);
+    }
+  }
+
+  function handleNext() {
+    const currentIndex = questions.findIndex((el) => el.id === selectedId);
+    if (currentIndex < questions.length - 1) {
+      setSelectedId(questions[currentIndex + 1].id);
+    }
   }
 
   return (
@@ -72,6 +91,29 @@ function FlashCards() {
             <p>{el.id == selectedId ? el.answer : el.question}</p>
           </div>
         ))}
+      </div>
+
+      <div className="navigation-buttons">
+        <button
+          onClick={handlePrevious}
+          disabled={
+            selectedId === null ||
+            questions.findIndex((el) => el.id === selectedId) === 0
+          }
+        >
+          Previous
+        </button>
+
+        <button
+          onClick={handleNext}
+          disabled={
+            selectedId === null ||
+            questions.findIndex((el) => el.id === selectedId) ===
+              questions.length - 1
+          }
+        >
+          Next
+        </button>
       </div>
     </>
   );

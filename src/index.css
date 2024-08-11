@@ -39,3 +39,57 @@ div.selected {
 div.selected:hover {
   transform: translateY(-5px);
 }
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1cabff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0a8cd2;
+  transform: translateY(-3px);
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 30px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-family: sans-serif;
+    overflow: auto;
+  }
+
+  .flashcards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 80%;
+    margin: 10px 0;
+  }
+}
