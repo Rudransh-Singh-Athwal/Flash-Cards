@@ -25,3 +25,10 @@ body {
   padding: 20px;
   cursor: pointer;
 }
+
+div.selected {
+  border: 1px solid #e03131;
+  background-color: #e03131;
+  color: #fff;
+  font-weight: bold;
+}
