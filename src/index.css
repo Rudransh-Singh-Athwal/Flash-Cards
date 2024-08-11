@@ -5,11 +5,12 @@
 body {
   font-family: sans-serif;
   padding: 20px;
+  overflow: hidden;
 }
 
 .flashcards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
 }
 
@@ -27,8 +28,14 @@ body {
 }
 
 div.selected {
-  border: 1px solid #e03131;
-  background-color: #e03131;
+  border: 1px solid #1cabff;
+  background-color: #1cabff;
   color: #fff;
   font-weight: bold;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(-5px);
+}
+
+div.selected:hover {
+  transform: translateY(-5px);
 }

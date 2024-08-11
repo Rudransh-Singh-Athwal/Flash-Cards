@@ -11,23 +11,28 @@ export default function App() {
 const questions = [
   {
     id: 1,
-    question: "What language is React based on?",
-    answer: "JavaScript",
+    question: "What are the basic operations performed on data structures?",
+    answer:
+      "The basic operations performed on data structures include insertion, deletion, traversal, search, and sorting.",
   },
   {
     id: 2,
-    question: "What are the building blocks of React apps?",
-    answer: "Components",
+    question: "What is the difference between an array and a linked list?",
+    answer:
+      "An array stores elements sequentially in memory whereas a linked list consists of a series of nodes, each containing a value and a pointer to the next node.",
   },
   {
     id: 3,
-    question: "What's the name of the syntax we use to describe a UI in React?",
-    answer: "JSX",
+    question: "What is the time complexity of an algorithm?",
+    answer:
+      "The time complexity of an algorithm is the measure of the amount of time it takes to run as a function of the input size.",
   },
+
   {
     id: 4,
-    question: "How to pass data from parent to child components?",
-    answer: "Props",
+    question: "What are the types of data structures?",
+    answer:
+      "There are several types of data structures, including arrays, linked lists, stacks, queues, trees, graphs, and hash tables.",
   },
   {
     id: 5,
@@ -40,6 +45,12 @@ const questions = [
       "What do we call an input element that is completely synchronised with state?",
     answer: "Controlled element",
   },
+  {
+    id: 7,
+    question: "What are props in React?",
+    answer:
+      "Props are like function parameters used to pass data to components.",
+  },
 ];
 
 function FlashCards() {
@@ -50,16 +61,18 @@ function FlashCards() {
   }
 
   return (
-    <div className="flashcards">
-      {questions.map((el) => (
-        <div
-          key={el.id}
-          className={el.id === selectedId ? "selected" : ""}
-          onClick={() => handleClick(el.id)}
-        >
-          <p>{el.id == selectedId ? el.answer : el.question}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="flashcards">
+        {questions.map((el) => (
+          <div
+            key={el.id}
+            className={el.id === selectedId ? "selected" : ""}
+            onClick={() => handleClick(el.id)}
+          >
+            <p>{el.id == selectedId ? el.answer : el.question}</p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
