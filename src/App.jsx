@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function App() {
   return (
     <div className="App">
-      <FlashCard />
+      <FlashCards />
     </div>
   );
 }
@@ -42,11 +42,11 @@ const questions = [
   },
 ];
 
-function FlashCard() {
+function FlashCards() {
   const [selectedId, setSelectedId] = useState(null);
 
   function handleClick(id) {
-    setSelectedId(id);
+    setSelectedId(id === selectedId ? null : id);
   }
 
   return (
@@ -57,7 +57,7 @@ function FlashCard() {
           className={el.id === selectedId ? "selected" : ""}
           onClick={() => handleClick(el.id)}
         >
-          <p>{el.question}</p>
+          <p>{el.id == selectedId ? el.answer : el.question}</p>
         </div>
       ))}
     </div>
