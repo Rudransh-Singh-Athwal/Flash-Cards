@@ -1,7 +1,7 @@
 export default function App() {
   return (
     <div className="App">
-      <FlashCards />
+      <FlashCard />
     </div>
   );
 }
@@ -9,9 +9,8 @@ export default function App() {
 const questions = [
   {
     id: 1,
-    question:
-      "How do you create a new project in React using Vite in terminal?",
-    answer: "Using npm create vite@latest flashcards",
+    question: "What language is React based on?",
+    answer: "JavaScript",
   },
   {
     id: 2,
@@ -41,10 +40,14 @@ const questions = [
   },
 ];
 
-function FlashCards() {
+function FlashCard() {
   return (
     <div className="flashcards">
-      <div>Dummy card</div>
+      {questions.map((el) => (
+        <div key={el.id}>
+          <p>{el.question}</p>
+        </div>
+      ))}
     </div>
   );
 }
