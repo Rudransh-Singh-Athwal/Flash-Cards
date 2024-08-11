@@ -5,7 +5,13 @@
 body {
   font-family: sans-serif;
   padding: 20px;
-  overflow: hidden;
+  overflow-x: hidden;
+  background-color: #ffe5d9;
+}
+
+h1 {
+  text-align: center;
+  color: #fe8160;
 }
 
 .flashcards {
@@ -25,6 +31,7 @@ body {
   text-align: center;
   padding: 20px;
   cursor: pointer;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
 }
 
 div.selected {
@@ -45,21 +52,29 @@ button {
   margin: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #1cabff;
-  color: #fff;
+  background-color: #feb179;
+  color: #ff7f5f;
+  font-weight: bold;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: #fff;
   cursor: not-allowed;
 }
 
+button:not(:disabled) {
+  background: #fe8160;
+  color: #fff;
+}
+
 button:hover:not(:disabled) {
-  background-color: #0a8cd2;
+  /* background-color: #0a8cd2; */
   transform: translateY(-3px);
+  background: #fe8160;
+  color: #fff;
 }
 
 .navigation-buttons {
@@ -92,4 +107,13 @@ button:hover:not(:disabled) {
     width: 80%;
     margin: 10px 0;
   }
+}
+
+.ownerName {
+  color: #fe8160;
+  text-align: end;
+  position: relative;
+  /* bottom: 10px; */
+  right: 20px;
+  font-size: 14px;
 }

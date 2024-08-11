@@ -81,6 +81,7 @@ function FlashCards() {
 
   return (
     <>
+      <h1>Flash Cards</h1>
       <div className="flashcards">
         {questions.map((el) => (
           <div
@@ -115,6 +116,7 @@ function FlashCards() {
           Next
         </button>
       </div>
+      {/* <h3 className="ownerName">Made by Rudransh</h3> */}
     </>
   );
 }
