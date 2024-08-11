@@ -1,3 +1,6 @@
+// https://csebackend-74p9.onrender.com/api/v1/QnA/update/:id
+// https://csebackend-74p9.onrender.com/api/v1/QnA/delete/:id
+
 import { useState } from "react";
 
 export default function App() {
@@ -26,7 +29,6 @@ const questions = [
       "Which programming language is mainly used for adding interactivity to websites?",
     answer: "JavaScript",
   },
-
   {
     id: 4,
     question:
@@ -82,17 +84,21 @@ function FlashCards() {
   return (
     <>
       <h1>Flash Cards</h1>
-      <div className="flashcards">
-        {questions.map((el) => (
-          <div
-            key={el.id}
-            className={el.id === selectedId ? "selected" : ""}
-            onClick={() => handleClick(el.id)}
-          >
-            <p>{el.id == selectedId ? el.answer : el.question}</p>
-          </div>
-        ))}
-      </div>
+      <>
+        <div className="flashcards">
+          {questions.map((el) => (
+            <div
+              key={el.id}
+              className={el.id === selectedId ? "selected" : ""}
+              onClick={() => handleClick(el.id)}
+            >
+              <p>{el.id == selectedId ? el.answer : el.question}</p>
+              <button className="updateButton">Update</button>
+              <button className="deleteButton">Delete</button>
+            </div>
+          ))}
+        </div>
+      </>
 
       <div className="navigation-buttons">
         <button

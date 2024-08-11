@@ -32,6 +32,7 @@ h1 {
   padding: 20px;
   cursor: pointer;
   background: linear-gradient(to right, #ff7e5f, #feb47b);
+  position: relative;
 }
 
 div.selected {
@@ -47,7 +48,48 @@ div.selected:hover {
   transform: translateY(-5px);
 }
 
-button {
+.deleteButton {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.deleteButton:hover {
+  background-color: #ff0000;
+  color: #fff;
+  font-weight: bold;
+}
+
+.updateButton {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  right: 5rem;
+  cursor: pointer;
+}
+
+.updateButton:hover {
+  background-color: #04d1ff;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.navigation-buttons button {
   padding: 10px 20px;
   margin: 10px;
   border: none;
@@ -60,17 +102,17 @@ button {
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-button:disabled {
+.navigation-buttons button:disabled {
   background-color: #fff;
   cursor: not-allowed;
 }
 
-button:not(:disabled) {
+.navigation-buttons button:not(:disabled) {
   background: #fe8160;
   color: #fff;
 }
 
-button:hover:not(:disabled) {
+.navigation-buttons button:hover:not(:disabled) {
   /* background-color: #0a8cd2; */
   transform: translateY(-3px);
   background: #fe8160;
@@ -103,7 +145,7 @@ button:hover:not(:disabled) {
     align-items: center;
   }
 
-  button {
+  .navigation-buttons button {
     width: 80%;
     margin: 10px 0;
   }
