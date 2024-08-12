@@ -31,7 +31,7 @@ h1 {
   text-align: center;
   padding: 20px;
   cursor: pointer;
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background: linear-gradient(to right, #ff7e5f, #fe7b84);
   position: relative;
 }
 
@@ -62,6 +62,10 @@ div.selected:hover {
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+/* .flashcards div .viewingAnswer {
+  background-color: #fff;
+} */
 
 .deleteButton:hover {
   background-color: #ff0000;
@@ -189,9 +193,8 @@ input {
   }
 
   .flashcards {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .navigation-buttons {
@@ -202,6 +205,19 @@ input {
   .navigation-buttons button {
     width: 80%;
     margin: 10px 0;
+  }
+
+  .add-new-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .add-new-card input {
+    width: 100%;
+  }
+
+  .add-new-card button {
+    margin-bottom: 5px;
   }
 }
 

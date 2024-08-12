@@ -150,12 +150,14 @@ function FlashCards() {
     if (newCard.question.trim() !== "" && newCard.answer.trim() !== "") {
       handleAdd(newCard);
       setNewCard({ question: "", answer: "" });
+      setAddingNewCard(false);
     }
   }
 
   return (
     <>
       <h1>Flash Cards</h1>
+      <h5>Tip: Click on a card to view the answer</h5>
       <div className="flashcards">
         {data.map((el) => (
           <div
@@ -233,8 +235,10 @@ function FlashCards() {
             onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
             placeholder="Enter answer"
           />
-          <button onClick={handleAddNewCard}>Add new card</button>
-          <button onClick={handleAddingNewCardBool}>Cancel</button>
+          <div className="addNewCardButtons">
+            <button onClick={handleAddNewCard}>Add</button>
+            <button onClick={handleAddingNewCardBool}>Cancel</button>
+          </div>
         </div>
       )}
 
