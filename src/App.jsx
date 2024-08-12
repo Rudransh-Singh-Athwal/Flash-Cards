@@ -64,15 +64,23 @@ function FlashCards() {
   const [data, setData] = useState([]);
   const [newCard, setNewCard] = useState({ question: "", answer: "" });
   const [addingNewCard, setAddingNewCard] = useState(false);
-  const [editingCard, setEditingCard] = useState(false);
+  const [editingCard, setEditingCard] = useState(-1);
+  const [newInfo, setNewInfo] = useState({ question: "", answer: "" });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   function handleAddingNewCardBool() {
     setAddingNewCard(!addingNewCard);
   }
 
-  function handleEditingCardBool() {
-    setEditingCard(!editingCard);
+  function handleEditingCardBool(id) {
+    const oldQuestion = data.filter((item) => item.id == id)[0];
+    console.log(oldQuestion);
+    setNewInfo({
+      question: oldQuestion.question,
+      answer: oldQuestion.answer,
+    });
+    setEditingCard((prev) => (prev === id ? -1 : id));
   }
 
   useEffect(() => {
@@ -92,11 +100,13 @@ function FlashCards() {
   }
 
   function handleAdd(newCard) {
+    setIsAdding(true);
     axios
       .post(`https://csebackend-74p9.onrender.com/api/v1/QnA`, newCard)
       .then((res) => {
         console.log(res);
         fetchData();
+        setIsAdding(false);
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
@@ -104,17 +114,19 @@ function FlashCards() {
         } else {
           console.log("Error adding the card", error);
         }
+        setIsAdding(false);
       });
   }
 
   function handleUpdate(id, updatedCard) {
     axios
-      .put(
+      .patch(
         `https://csebackend-74p9.onrender.com/api/v1/QnA/update/${id}`,
         updatedCard
       )
       .then((res) => {
         console.log(res);
+        fetchData();
       })
       .catch((error) => {
         console.log("Error updating the card", error);
@@ -137,6 +149,7 @@ function FlashCards() {
   // }
 
   function handleDelete(id) {
+    setIsDeleting(true);
     axios
       .delete(`https://csebackend-74p9.onrender.com/api/v1/QnA/delete/${id}`)
       .then((res) => {
@@ -146,6 +159,7 @@ function FlashCards() {
         if (cardIndex !== -1) {
           data[cardIndex].isDeleting = false; // Reset isDeleting to false after deletion
         }
+        setIsDeleting(false);
       })
       .catch((error) => {
         console.log("Error deleting the card", error);
@@ -153,6 +167,7 @@ function FlashCards() {
         if (cardIndex !== -1) {
           data[cardIndex].isDeleting = false; // Reset isDeleting to false after deletion
         }
+        setIsDeleting(false);
       });
   }
 
@@ -191,25 +206,56 @@ function FlashCards() {
           <div
             key={el.id}
             className={el.id === selectedId ? "selected" : ""}
-            onClick={() => handleClick(el.id)}
+            onClick={() => {
+              if (el.id != editingCard) {
+                handleClick(el.id);
+              }
+            }}
           >
-            {/* if(el.isDeleting){<p>Deleting...</p>}
-            else{<p>{el.id == selectedId ? el.answer : el.question}</p>} */}
-            {/* {el.isDeleting && <p>Deleting....</p>} */}
-            <p>{el.id == selectedId ? el.answer : el.question}</p>
+            {editingCard == el.id ? (
+              <h1 className="editingCard">
+                <input
+                  type="text"
+                  value={newInfo.question}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, question: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  value={newInfo.answer}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, answer: e.target.value })
+                  }
+                />
+              </h1>
+            ) : (
+              <p>{el.id == selectedId ? el.answer : el.question}</p>
+            )}
             <button
               className="updateButton"
               onClick={(e) => {
                 e.stopPropagation();
-                handleEditingCardBool();
+                handleEditingCardBool(el.id);
+                if (editingCard == el.id) {
+                  handleUpdate(el.id, {
+                    question: el.question,
+                    answer: el.answer,
+                  });
+                }
               }}
             >
-              Edit
+              {editingCard == el.id ? "Save" : "Edit"}
             </button>
             <button
               className="deleteButton"
+              disabled={isDeleting && selectedId == el.id}
               onClick={(e) => {
-                e.stopPropagation();
+                // e.stopPropagation();
+                if (editingCard == el.id) {
+                  handleEditingCardBool(el.id);
+                  return;
+                }
                 if (
                   window.confirm("Are you sure you want to delete this card?")
                 ) {
@@ -219,7 +265,13 @@ function FlashCards() {
                 // handleDelete(el.id);
               }}
             >
-              Delete
+              {editingCard == el.id
+                ? "Cancel"
+                : !isDeleting
+                ? "Delete"
+                : selectedId == el.id
+                ? "Deleting"
+                : "Delete"}
             </button>
           </div>
         ))}
@@ -248,14 +300,19 @@ function FlashCards() {
       </div>
 
       {!addingNewCard && (
-        <button className="addNewCardButton" onClick={handleAddingNewCardBool}>
-          Add new card
+        <button
+          className="addNewCardButton"
+          disabled={isAdding}
+          onClick={handleAddingNewCardBool}
+        >
+          {isAdding ? "Adding..." : "Add new card"}
         </button>
       )}
 
       {addingNewCard && (
         <div className="add-new-card">
           <input
+            className="input"
             type="text"
             value={newCard.question}
             onChange={(e) =>
@@ -264,6 +321,7 @@ function FlashCards() {
             placeholder="Enter question"
           />
           <input
+            className="input"
             type="text"
             value={newCard.answer}
             onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
