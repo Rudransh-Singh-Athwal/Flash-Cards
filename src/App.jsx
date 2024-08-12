@@ -14,132 +14,74 @@ export default function App() {
   );
 }
 
-function handleAdd() {
-  const res = axios.delete(`https://csebackend-74p9.onrender.com/api/v1/QnA`);
-  if (res) {
-    console.log(res);
-  } else {
-    console.log("Error adding the card");
-  }
-}
-
-function handleDelete(id) {
-  const res = axios.delete(
-    `https://csebackend-74p9.onrender.com/api/v1/QnA/delete/${id}`
-  );
-  if (res) {
-    console.log(res);
-  } else {
-    console.log("Error deleting the card");
-  }
-}
-
-function handleUpdate(id) {
-  const res = axios.put(
-    `https://csebackend-74p9.onrender.com/api/v1/QnA/update/${id}`
-  );
-  if (res) {
-    console.log(res);
-  } else {
-    console.log("Error updating the card");
-  }
-}
-
-// const questions = [
-//   {
-//     id: 1,
-//     question:
-//       "Which technology is primarily responsible for the styling of web pages?",
-//     answer: "CSS",
-//   },
-//   {
-//     id: 2,
-//     question: "What does CSS stand for?",
-//     answer: "Cascading Style Sheets",
-//   },
-//   {
-//     id: 3,
-//     question:
-//       "Which programming language is mainly used for adding interactivity to websites?",
-//     answer: "JavaScript",
-//   },
-//   {
-//     id: 4,
-//     question:
-//       "What is the purpose of a front-end web development framework like React?",
-//     answer: "To create a visually appealing user interface",
-//   },
-//   {
-//     id: 5,
-//     question: "How to give components memory?",
-//     answer: "useState hook",
-//   },
-//   {
-//     id: 6,
-//     question:
-//       "What do we call an input element that is completely synchronised with state?",
-//     answer: "Controlled element",
-//   },
-//   {
-//     id: 7,
-//     question:
-//       "Which part of web development is responsible for handling data storage and retrieval?",
-//     answer: "Back-end development",
-//   },
-//   {
-//     id: 8,
-//     question:
-//       "What is the primary function of a web server in the context of web development?",
-//     answer: "Handling HTTP requests and serving web pages",
-//   },
-// ];
-
 const questions = [
   {
     id: 1,
-    question: "question",
+    question:
+      "Which technology is primarily responsible for the styling of web pages?",
     answer: "CSS",
   },
   {
     id: 2,
-    question: "question",
+    question: "What does CSS stand for?",
     answer: "Cascading Style Sheets",
   },
   {
     id: 3,
-    question: "question",
+    question:
+      "Which programming language is mainly used for adding interactivity to websites?",
     answer: "JavaScript",
   },
+
   {
     id: 4,
-    question: "question",
+    question:
+      "What is the purpose of a front-end web development framework like React?",
     answer: "To create a visually appealing user interface",
   },
   {
     id: 5,
-    question: "question",
+    question: "How to give components memory?",
     answer: "useState hook",
   },
   {
     id: 6,
-    question: "question",
+    question:
+      "What do we call an input element that is completely synchronised with state?",
     answer: "Controlled element",
   },
   {
     id: 7,
-    question: "question",
+    question:
+      "Which part of web development is responsible for handling data storage and retrieval?",
     answer: "Back-end development",
   },
   {
     id: 8,
-    question: "question",
+    question:
+      "What is the primary function of a web server in the context of web development?",
     answer: "Handling HTTP requests and serving web pages",
   },
 ];
 
+function handleUpdate(id, updatedCard) {
+  axios
+    .put(
+      `https://csebackend-74p9.onrender.com/api/v1/QnA/update/${id}`,
+      updatedCard
+    )
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log("Error updating the card", error);
+    });
+}
+
 function FlashCards() {
   const [selectedId, setSelectedId] = useState(null);
   const [data, setData] = useState([]);
+  const [newCard, setNewCard] = useState({ question: "", answer: "" });
 
   useEffect(() => {
     fetchData();
@@ -157,59 +99,107 @@ function FlashCards() {
     }
   }
 
+  function handleAdd(newCard) {
+    axios
+      .post(`https://csebackend-74p9.onrender.com/api/v1/QnA`, newCard)
+      .then((res) => {
+        console.log(res);
+        fetchData();
+      })
+      .catch((error) => {
+        console.log("Error adding the card", error);
+      });
+  }
+
+  function handleDelete(id) {
+    axios
+      .delete(`https://csebackend-74p9.onrender.com/api/v1/QnA/delete/${id}`)
+      .then((res) => {
+        console.log(res);
+        fetchData(); // Reload and fetch data after deleting the card
+      })
+      .catch((error) => {
+        console.log("Error deleting the card", error);
+      });
+  }
+
   function handleClick(id) {
     setSelectedId(id === selectedId ? null : id);
   }
 
   function handlePrevious() {
-    const currentIndex = questions.findIndex((el) => el.id === selectedId);
+    const currentIndex = data.findIndex((el) => el.id === selectedId);
     if (currentIndex > 0) {
-      setSelectedId(questions[currentIndex - 1].id);
+      setSelectedId(data[currentIndex - 1].id);
     }
   }
 
   function handleNext() {
-    const currentIndex = questions.findIndex((el) => el.id === selectedId);
-    if (currentIndex < questions.length - 1) {
-      setSelectedId(questions[currentIndex + 1].id);
+    const currentIndex = data.findIndex((el) => el.id === selectedId);
+    if (currentIndex < data.length - 1) {
+      setSelectedId(data[currentIndex + 1].id);
     }
+  }
+
+  function handleAddNewCard() {
+    handleAdd(newCard);
+    setNewCard({ question: "", answer: "" });
   }
 
   return (
     <>
       <h1>Flash Cards</h1>
-      <>
-        <div className="flashcards">
-          {questions.map((el) => (
-            <div
-              key={el.id}
-              className={el.id === selectedId ? "selected" : ""}
-              onClick={() => handleClick(el.id)}
+      <div className="flashcards">
+        {data.map((el) => (
+          <div
+            key={el.id}
+            className={el.id === selectedId ? "selected" : ""}
+            onClick={() => handleClick(el.id)}
+          >
+            <p>{el.id == selectedId ? el.answer : el.question}</p>
+            <button
+              className="updateButton"
+              onClick={() =>
+                handleUpdate(el.id, {
+                  question: el.question,
+                  answer: el.answer,
+                })
+              }
             >
-              <p>{el.id == selectedId ? el.answer : el.question}</p>
-              <button
-                className="updateButton"
-                onClick={() => handleUpdate(el.id)}
-              >
-                Update
-              </button>
-              <button
-                className="deleteButton"
-                onClick={() => handleDelete(el.id)}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
-      </>
+              Update
+            </button>
+            <button
+              className="deleteButton"
+              onClick={() => handleDelete(el.id)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="add-new-card">
+        <input
+          type="text"
+          value={newCard.question}
+          onChange={(e) => setNewCard({ ...newCard, question: e.target.value })}
+          placeholder="Enter question"
+        />
+        <input
+          type="text"
+          value={newCard.answer}
+          onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
+          placeholder="Enter answer"
+        />
+        <button onClick={handleAddNewCard}>Add new card</button>
+      </div>
 
       <div className="navigation-buttons">
         <button
           onClick={handlePrevious}
           disabled={
             selectedId === null ||
-            questions.findIndex((el) => el.id === selectedId) === 0
+            data.findIndex((el) => el.id === selectedId) === 0
           }
         >
           Previous
@@ -219,17 +209,12 @@ function FlashCards() {
           onClick={handleNext}
           disabled={
             selectedId === null ||
-            questions.findIndex((el) => el.id === selectedId) ===
-              questions.length - 1
+            data.findIndex((el) => el.id === selectedId) === data.length - 1
           }
         >
           Next
         </button>
       </div>
-      <button className="addDataButton" onClick={handleAdd}>
-        Add new data
-      </button>
-      {/* <h3 className="ownerName">Made by Rudransh</h3> */}
     </>
   );
 }
