@@ -82,6 +82,11 @@ function FlashCards() {
   const [selectedId, setSelectedId] = useState(null);
   const [data, setData] = useState([]);
   const [newCard, setNewCard] = useState({ question: "", answer: "" });
+  const [addingNewCard, setAddingNewCard] = useState(false);
+
+  function handleAddingNewCardBool() {
+    setAddingNewCard(!addingNewCard);
+  }
 
   useEffect(() => {
     fetchData();
@@ -142,8 +147,10 @@ function FlashCards() {
   }
 
   function handleAddNewCard() {
-    handleAdd(newCard);
-    setNewCard({ question: "", answer: "" });
+    if (newCard.question.trim() !== "" && newCard.answer.trim() !== "") {
+      handleAdd(newCard);
+      setNewCard({ question: "", answer: "" });
+    }
   }
 
   return (
@@ -159,39 +166,27 @@ function FlashCards() {
             <p>{el.id == selectedId ? el.answer : el.question}</p>
             <button
               className="updateButton"
-              onClick={() =>
+              onClick={(e) => {
+                e.stopPropagation();
                 handleUpdate(el.id, {
                   question: el.question,
                   answer: el.answer,
-                })
-              }
+                });
+              }}
             >
               Update
             </button>
             <button
               className="deleteButton"
-              onClick={() => handleDelete(el.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(el.id);
+              }}
             >
               Delete
             </button>
           </div>
         ))}
-      </div>
-
-      <div className="add-new-card">
-        <input
-          type="text"
-          value={newCard.question}
-          onChange={(e) => setNewCard({ ...newCard, question: e.target.value })}
-          placeholder="Enter question"
-        />
-        <input
-          type="text"
-          value={newCard.answer}
-          onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
-          placeholder="Enter answer"
-        />
-        <button onClick={handleAddNewCard}>Add new card</button>
       </div>
 
       <div className="navigation-buttons">
@@ -215,6 +210,39 @@ function FlashCards() {
           Next
         </button>
       </div>
+
+      {!addingNewCard && (
+        <button className="addNewCardButton" onClick={handleAddingNewCardBool}>
+          Add new card
+        </button>
+      )}
+
+      {addingNewCard && (
+        <div className="add-new-card">
+          <input
+            type="text"
+            value={newCard.question}
+            onChange={(e) =>
+              setNewCard({ ...newCard, question: e.target.value })
+            }
+            placeholder="Enter question"
+          />
+          <input
+            type="text"
+            value={newCard.answer}
+            onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
+            placeholder="Enter answer"
+          />
+          <button onClick={handleAddNewCard}>Add new card</button>
+          <button onClick={handleAddingNewCardBool}>Cancel</button>
+        </div>
+      )}
+
+      {/* {addingNewCard && (
+        <button className="addNewCardButton" onClick={handleAddingNewCardBool}>
+          Close
+        </button>
+      )} */}
     </>
   );
 }
