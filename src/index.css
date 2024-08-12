@@ -37,7 +37,7 @@ h1 {
 
 div.selected {
   border: 1px solid #1cabff;
-  background-color: #1cabff;
+  background: linear-gradient(to right, #ff7e5f, #fe7b84);
   color: #fff;
   font-weight: bold;
   transition: transform 0.3s ease-in-out;
