@@ -14,6 +14,15 @@ export default function App() {
   );
 }
 
+function handleAdd() {
+  const res = axios.delete(`https://csebackend-74p9.onrender.com/api/v1/QnA`);
+  if (res) {
+    console.log(res);
+  } else {
+    console.log("Error adding the card");
+  }
+}
+
 function handleDelete(id) {
   const res = axios.delete(
     `https://csebackend-74p9.onrender.com/api/v1/QnA/delete/${id}`
@@ -217,7 +226,9 @@ function FlashCards() {
           Next
         </button>
       </div>
-      <button className="addDataButton">Add new data</button>
+      <button className="addDataButton" onClick={handleAdd}>
+        Add new data
+      </button>
       {/* <h3 className="ownerName">Made by Rudransh</h3> */}
     </>
   );
