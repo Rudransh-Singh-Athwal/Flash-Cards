@@ -62,6 +62,10 @@ div.selected:hover {
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+button:disabled {
+  cursor: not-allowed;
+  background-color: gray;
+}
 
 /* .flashcards div .viewingAnswer {
   background-color: #fff;
@@ -151,12 +155,23 @@ div.selected:hover {
 
 /* ==================== */
 
-input {
+.input {
   padding: 10px;
   margin: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+}
+input {
+  margin-top: 4px;
+  border-radius: 2px;
+  padding: 2px 6px;
+  border: none;
+  margin: none;
+  padding: none;
+  outline: 1px solid #dedede;
+  font-size: 14px;
+  width: 100%;
 }
 
 .add-new-card {
@@ -234,4 +249,10 @@ input {
   /* bottom: 10px; */
   right: 20px;
   font-size: 14px;
+}
+
+.editingCard {
+  display: flex;
+  flex-direction: column;
+  border: none !important;
 }
