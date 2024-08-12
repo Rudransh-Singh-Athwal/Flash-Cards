@@ -1,7 +1,9 @@
+// https://csebackend-74p9.onrender.com/api/v1/QnA/get
 // https://csebackend-74p9.onrender.com/api/v1/QnA/update/:id
 // https://csebackend-74p9.onrender.com/api/v1/QnA/delete/:id
 
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function App() {
   return (
@@ -9,6 +11,28 @@ export default function App() {
       <FlashCards />
     </div>
   );
+}
+
+function handleDelete(id) {
+  const res = axios.delete(
+    `https://csebackend-74p9.onrender.com/api/v1/QnA/delete/${id}`
+  );
+  if (res) {
+    console.log(res);
+  } else {
+    console.log("Error deleting the card");
+  }
+}
+
+function handleUpdate(id) {
+  const res = axios.put(
+    `https://csebackend-74p9.onrender.com/api/v1/QnA/update/${id}`
+  );
+  if (res) {
+    console.log(res);
+  } else {
+    console.log("Error updating the card");
+  }
 }
 
 const questions = [
@@ -62,6 +86,23 @@ const questions = [
 
 function FlashCards() {
   const [selectedId, setSelectedId] = useState(null);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const response = await axios.get(
+        "https://csebackend-74p9.onrender.com/api/v1/QnA/get"
+      );
+      setData(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log("Error fetching data:", error);
+    }
+  }
 
   function handleClick(id) {
     setSelectedId(id === selectedId ? null : id);
@@ -86,15 +127,25 @@ function FlashCards() {
       <h1>Flash Cards</h1>
       <>
         <div className="flashcards">
-          {questions.map((el) => (
+          {data.map((el) => (
             <div
               key={el.id}
               className={el.id === selectedId ? "selected" : ""}
               onClick={() => handleClick(el.id)}
             >
               <p>{el.id == selectedId ? el.answer : el.question}</p>
-              <button className="updateButton">Update</button>
-              <button className="deleteButton">Delete</button>
+              <button
+                className="updateButton"
+                onClick={() => handleUpdate(el.id)}
+              >
+                Update
+              </button>
+              <button
+                className="deleteButton"
+                onClick={() => handleDelete(el.id)}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
