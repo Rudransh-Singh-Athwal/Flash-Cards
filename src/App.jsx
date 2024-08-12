@@ -182,7 +182,12 @@ function FlashCards() {
               className="deleteButton"
               onClick={(e) => {
                 e.stopPropagation();
-                handleDelete(el.id);
+                if (
+                  window.confirm("Are you sure you want to delete this card?")
+                ) {
+                  handleDelete(el.id);
+                }
+                // handleDelete(el.id);
               }}
             >
               Delete
