@@ -128,6 +128,23 @@ div.selected:hover {
   box-sizing: border-box;
 }
 
+.addDataButton {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fe8160;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.addDataButton:hover {
+  /* font-weight: bold; */
+  transform: translateY(-3px);
+}
+
 @media (max-width: 768px) {
   body {
     font-family: sans-serif;

@@ -1,6 +1,7 @@
 // https://csebackend-74p9.onrender.com/api/v1/QnA/get
 // https://csebackend-74p9.onrender.com/api/v1/QnA/update/:id
 // https://csebackend-74p9.onrender.com/api/v1/QnA/delete/:id
+// https://csebackend-74p9.onrender.com/api/v1/QnA  post single data
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -216,6 +217,7 @@ function FlashCards() {
           Next
         </button>
       </div>
+      <button className="addDataButton">Add new data</button>
       {/* <h3 className="ownerName">Made by Rudransh</h3> */}
     </>
   );
