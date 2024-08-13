@@ -69,6 +69,7 @@ function FlashCards() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isUpdatingCard, setIsUpdatingCard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log("hello", newInfo);
@@ -92,14 +93,18 @@ function FlashCards() {
   }, []);
 
   async function fetchData() {
+    setIsLoading(true);
     try {
       const response = await axios.get(
         "https://csebackend-74p9.onrender.com/api/v1/QnA/get"
       );
       setData(response.data.data);
       console.log(response.data.data);
+      setIsLoading(false);
     } catch (error) {
       console.log("Error fetching data:", error);
+      setIsLoading(false);
+      
     }
   }
 
@@ -209,80 +214,87 @@ function FlashCards() {
     <>
       <h1>Flash Cards</h1>
       <h5>Tip: Click on a card to view the answer</h5>
-      <div className="flashcards">
-        {data.map((el) => (
-          <div
-            key={el.id}
-            className={el.id === selectedId ? "selected" : ""}
-            onClick={() => {
-              if (el.id != editingCard) {
-                handleClick(el.id);
-              }
-            }}
-          >
-            {editingCard == el.id ? (
-              <h1 className="editingCard">
-                <input
-                  type="text"
-                  value={newInfo.question}
-                  onChange={(e) =>
-                    setNewInfo({ ...newInfo, question: e.target.value })
+      {isLoading ? (
+        <h1>Loading cards...</h1>
+      ) : (
+        <>
+          <div className="flashcards">
+            {data.map((el) => (
+              <div
+                key={el.id}
+                className={el.id === selectedId ? "selected" : ""}
+                onClick={() => {
+                  if (el.id != editingCard) {
+                    handleClick(el.id);
                   }
-                />
-                <input
-                  type="text"
-                  value={newInfo.answer}
-                  onChange={(e) =>
-                    setNewInfo({ ...newInfo, answer: e.target.value })
-                  }
-                />
-              </h1>
-            ) : (
-              <p>{el.id == selectedId ? el.answer : el.question}</p>
-            )}
-            <button
-              className="updateButton"
-              disabled={isUpdatingCard}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEditingCardBool(el.id);
-                if (editingCard == el.id) {
-                  handleUpdate(el.id, newInfo);
-                }
-              }}
-            >
-              {editingCard == el.id ? "Save" : "Edit"}
-            </button>
-            <button
-              className="deleteButton"
-              disabled={isDeleting && selectedId == el.id}
-              onClick={(e) => {
-                // e.stopPropagation();
-                if (editingCard == el.id) {
-                  handleEditingCardBool(el.id);
-                  return;
-                }
-                if (
-                  window.confirm("Are you sure you want to delete this card?")
-                ) {
-                  handleDelete(el.id);
-                  el.isDeleting = true;
-                }
-                // handleDelete(el.id);
-              }}
-            >
-              {editingCard == el.id
-                ? "Cancel"
-                : !isDeleting
-                ? "Delete"
-                : selectedId == el.id
-                ? "Deleting"
-                : "Delete"}
-            </button>
+                }}
+              >
+                {editingCard == el.id ? (
+                  <h1 className="editingCard">
+                    <input
+                      type="text"
+                      value={newInfo.question}
+                      onChange={(e) =>
+                        setNewInfo({ ...newInfo, question: e.target.value })
+                      }
+                    />
+                    <input
+                      type="text"
+                      value={newInfo.answer}
+                      onChange={(e) =>
+                        setNewInfo({ ...newInfo, answer: e.target.value })
+                      }
+                    />
+                  </h1>
+                ) : (
+                  <p>{el.id == selectedId ? el.answer : el.question}</p>
+                )}
+                <button
+                  className="updateButton"
+                  disabled={isUpdatingCard}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditingCardBool(el.id);
+                    if (editingCard == el.id) {
+                      handleUpdate(el.id, newInfo);
+                    }
+                  }}
+                >
+                  {editingCard == el.id ? "Save" : "Edit"}
+                </button>
+                <button
+                  className="deleteButton"
+                  disabled={isDeleting && selectedId == el.id}
+                  onClick={(e) => {
+                    // e.stopPropagation();
+                    if (editingCard == el.id) {
+                      handleEditingCardBool(el.id);
+                      return;
+                    }
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this card?"
+                      )
+                    ) {
+                      handleDelete(el.id);
+                      el.isDeleting = true;
+                    }
+                    // handleDelete(el.id);
+                  }}
+                >
+                  {editingCard == el.id
+                    ? "Cancel"
+                    : !isDeleting
+                    ? "Delete"
+                    : selectedId == el.id
+                    ? "Deleting"
+                    : "Delete"}
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
+        </>
+      )}
       <div className="navigation-buttons">
         <button
           onClick={handlePrevious}
@@ -304,7 +316,6 @@ function FlashCards() {
           Next
         </button>
       </div>
-
       {!addingNewCard && (
         <button
           className="addNewCardButton"
@@ -314,7 +325,6 @@ function FlashCards() {
           {isAdding ? "Adding..." : "Add new card"}
         </button>
       )}
-
       {addingNewCard && (
         <div className="add-new-card">
           <input
