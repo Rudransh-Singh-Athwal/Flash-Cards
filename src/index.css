@@ -92,7 +92,7 @@ button:disabled {
 }
 
 .updateButton:hover {
-  background-color: #04d1ff;
+  background-color: #686868;
   color: #ffffff;
   font-weight: bold;
 }
