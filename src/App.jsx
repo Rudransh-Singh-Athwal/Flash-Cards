@@ -104,7 +104,6 @@ function FlashCards() {
     } catch (error) {
       console.log("Error fetching data:", error);
       setIsLoading(false);
-      
     }
   }
 
@@ -215,7 +214,7 @@ function FlashCards() {
       <h1>Flash Cards</h1>
       <h5>Tip: Click on a card to view the answer</h5>
       {isLoading ? (
-        <h1>Loading cards...</h1>
+        <h3>Loading cards...</h3>
       ) : (
         <>
           <div className="flashcards">
