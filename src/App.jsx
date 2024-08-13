@@ -69,6 +69,9 @@ function FlashCards() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
+  useEffect(() => {
+    console.log("hello", newInfo);
+  }, [newInfo]);
   function handleAddingNewCardBool() {
     setAddingNewCard(!addingNewCard);
   }
@@ -119,6 +122,7 @@ function FlashCards() {
   }
 
   function handleUpdate(id, updatedCard) {
+    console.log("updatedCard", updatedCard);
     axios
       .patch(
         `https://csebackend-74p9.onrender.com/api/v1/QnA/update/${id}`,
@@ -238,10 +242,7 @@ function FlashCards() {
                 e.stopPropagation();
                 handleEditingCardBool(el.id);
                 if (editingCard == el.id) {
-                  handleUpdate(el.id, {
-                    question: el.question,
-                    answer: el.answer,
-                  });
+                  handleUpdate(el.id, newInfo);
                 }
               }}
             >
