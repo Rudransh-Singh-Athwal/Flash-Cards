@@ -68,6 +68,7 @@ function FlashCards() {
   const [newInfo, setNewInfo] = useState({ question: "", answer: "" });
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [isUpdatingCard, setIsUpdatingCard] = useState(false);
 
   useEffect(() => {
     console.log("hello", newInfo);
@@ -122,6 +123,7 @@ function FlashCards() {
   }
 
   function handleUpdate(id, updatedCard) {
+    setIsUpdatingCard(true);
     console.log("updatedCard", updatedCard);
     axios
       .patch(
@@ -131,9 +133,11 @@ function FlashCards() {
       .then((res) => {
         console.log(res);
         fetchData();
+        setIsUpdatingCard(false);
       })
       .catch((error) => {
         console.log("Error updating the card", error);
+        setIsUpdatingCard(false);
       });
   }
 
@@ -238,6 +242,7 @@ function FlashCards() {
             )}
             <button
               className="updateButton"
+              disabled={isUpdatingCard}
               onClick={(e) => {
                 e.stopPropagation();
                 handleEditingCardBool(el.id);
